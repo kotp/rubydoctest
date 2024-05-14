@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.email = ["duane.johnson@gmail.com"]
   s.executables = ["rubydoctest"]
   s.extra_rdoc_files = ["History.txt", "License.txt", "Manifest.txt", "PostInstall.txt", "README.txt", "website/index.txt"]
-  manifest = <<-MANIFEST
+  manifest = <<~MANIFEST
     History.txt
     License.txt
     Manifest.txt
@@ -52,17 +52,18 @@ Gem::Specification.new do |s|
     website/stylesheets/screen.css
     website/template.html.erb
   MANIFEST
-  s.files = manifest.strip.split("\n").map{|m| m.strip}
+
+  s.files = manifest.lines(chomp: true)
   s.has_rdoc = true
   s.homepage = %q{http://rubydoctest.rubyforge.org}
-  s.post_install_message = %q{
-rubydoctest comes as an executable that takes a file or directory:
-	
-  rubydoctest .
-	rubydoctest simple.doctest
 
+  s.post_install_message = <<~INSTALL_MESSAGE
+    rubydoctest comes as an executable that takes a file or directory:
 
-}
+      rubydoctest .
+      rubydoctest simple.doctest
+  INSTALL_MESSAGE
+
   s.rdoc_options = ["--main", "README.txt"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{rubydoctest}
