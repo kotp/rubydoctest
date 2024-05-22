@@ -136,8 +136,8 @@ module RubyDocTest
               status = ["FAIL".center(4), :red]
 
               result_raw = t.first_failed.actual_result
-              got = if result_raw =~ /\n$/ && result_raw.count("\n") > 1
-                      "Got: <<-__END__\n#{result_raw}__END__\n       "
+              got = if multiline_stringlike?(result_raw)
+                      "Got: <<-__END__\n#{result_raw}__END__#{newline}"
                     else
                       "Got:      #{t.actual_result}#{newline}"
                     end
@@ -175,7 +175,12 @@ module RubyDocTest
         "#{err} errors"
       everything_passed
     end
-    
+
+    def multiline_stringlike?(result_raw)
+      result_raw.respond_to?(:=~) &&
+        result_raw =~ /\n.*\n$/
+    end
+
     # === Tests
     # 
     # doctest: Non-statement lines get ignored while statement / result lines are included
