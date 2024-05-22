@@ -9,6 +9,7 @@ require 'code_block'
 require 'test'
 
 module RubyDocTest
+
   class Runner
     attr_reader :groups, :blocks, :tests
 
@@ -416,5 +417,7 @@ module RubyDocTest
       tests << Test.new("Default Test", unassigned_blocks) unless unassigned_blocks.empty?
       tests
     end
+
   end
+
 end
