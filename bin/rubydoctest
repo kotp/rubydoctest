@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'rbconfig'
 RUBY = File.join(RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name']).sub(/.*\s.*/m, '"\&"')
 
 options, files = ARGV.partition{ |a| a =~ /^-/ }
@@ -41,7 +40,7 @@ end
 
 single = options.include?("--single")
 
-requires = ['rubygems', File.dirname(__FILE__) + "/../lib/rubydoctest"]
+requires = [File.dirname(__FILE__) + "/../lib/rubydoctest"]
 requires << 'ruby-debug' if options.include?("--debugger")
 
 if options.detect {|opt| opt =~ /^--require=(.+)/}
@@ -56,7 +55,7 @@ ruby_lines << "RubyDocTest.ignore_interactive = true;" if options.include?("--ig
 tests = options.map{ |o| o =~ /^-t(\d+)/; $1 }.compact
 ruby_lines << "RubyDocTest.tests = #{tests.inspect};" if tests.size > 0
 
-requires = requires.map {|lib| "require '#{lib}'; "}.join
+requires = requires.map {|lib| "require_relative '#{lib}'; "}.join
 
 def files_runner(command, files, requires, lines, single)
   preamble = <<END_CMD
