@@ -11,7 +11,7 @@ require 'test'
 module RubyDocTest
   class Runner
     attr_reader :groups, :blocks, :tests
-    
+
     @@color = {
       :html => {
         :red    => %{<font color="red">%s</font>},
@@ -29,7 +29,7 @@ module RubyDocTest
         :green  => "%s"
       }
     }
-    
+
     # The evaluation mode, either :doctest or :ruby.
     #
     # Modes:
@@ -42,9 +42,9 @@ module RubyDocTest
     #     - The Runner expects the file to be a Ruby source file.  The source may contain
     #       comments that are interspersed with irb lines to eval, e.g. '>>' and '=>'.
     attr_accessor :mode
-    
+
     # === Tests
-    # 
+    #
     # doctest: Runner mode should default to :doctest and :ruby from the filename
     # >> r = RubyDocTest::Runner.new("", "test.doctest")
     # >> r.mode
@@ -61,12 +61,12 @@ module RubyDocTest
     def initialize(src, file_name = "test.doctest", initial_mode = nil)
       @src, @file_name = src, file_name
       @mode = initial_mode || (File.extname(file_name) == ".rb" ? :ruby : :doctest)
-      
+
       @src_lines = src.split("\n")
       @groups, @blocks = [], []
       $rubydoctest = self
     end
-    
+
     # doctest: Using the doctest_require: SpecialDirective should require a file relative to the current one.
     # >> r = RubyDocTest::Runner.new("# doctest_require: 'doctest_require.rb'", __FILE__)
     # >> r.prepare_tests
@@ -78,7 +78,7 @@ module RubyDocTest
       @tests = organize_tests
       eval(@src, TOPLEVEL_BINDING, @file_name) if @mode == :ruby
     end
-    
+
     # === Tests
     # doctest: Run through a simple inline doctest (rb) file and see if it passes
     # >> file = File.join(File.dirname(__FILE__), "..", "test", "inline.rb")
@@ -89,7 +89,7 @@ module RubyDocTest
       prepare_tests
       @tests.all?{ |t| t.pass? }
     end
-    
+
     # === Description
     # Starts an IRB prompt when the "!!!" SpecialDirective is given.
     def start_irb
@@ -101,11 +101,11 @@ module RubyDocTest
         irb.eval_input
       end
     end
-    
+
     def format_color(text, color)
       @@color[RubyDocTest.output_format][color] % text.to_s
     end
-    
+
     def escape(text)
       case RubyDocTest.output_format
       when :html
@@ -114,7 +114,7 @@ module RubyDocTest
         text
       end
     end
-    
+
     def run
       prepare_tests
       newline = "\n           "
@@ -145,7 +145,7 @@ module RubyDocTest
                 "#{got}Expected: #{t.expected_result}" + newline +
                   "  from #{@file_name}:#{t.first_failed.result.line_number}",
                 :red)
-              
+
             end
           rescue EvaluationError => e
             err += 1
@@ -182,7 +182,7 @@ module RubyDocTest
     end
 
     # === Tests
-    # 
+    #
     # doctest: Non-statement lines get ignored while statement / result lines are included
     #          Default mode is :doctest, so non-irb prompts should be ignored.
     # >> r = RubyDocTest::Runner.new("a\nb\n >> c = 1\n => 1")
@@ -216,71 +216,71 @@ module RubyDocTest
         case mode
         when :ruby
           case line
-          
+
           # Beginning of a multi-line comment section
           when /^=begin/
             groups +=
               # Get statements, results, and directives as if inside a doctest
               read_groups(src_lines, :doctest_with_end, index)
-          
+
           else
             if g = match_group("\\s*#\\s*", src_lines, index)
               groups << g
             end
-          
+
           end
         when :doctest
           if g = match_group("\\s*", src_lines, index)
             groups << g
           end
-          
+
         when :doctest_with_end
           break if line =~ /^=end/
           if g = match_group("\\s*", src_lines, index)
             groups << g
           end
-          
+
         end
       end
       groups
     end
-    
+
     def match_group(prefix, src_lines, index)
       case src_lines[index]
-      
+
       # An irb '>>' marker after a '#' indicates an embedded doctest
       when /^(#{prefix})>>(\s|\s*$)/
         Statement.new(src_lines, index, @file_name)
-      
+
       # An irb '=>' marker after a '#' indicates an embedded result
       when /^(#{prefix})=>\s/
         Result.new(src_lines, index)
-      
+
       # Whenever we match a directive (e.g. 'doctest'), add that in as well
       when /^(#{prefix})(#{SpecialDirective::NAMES_FOR_RX})(.*)$/
         SpecialDirective.new(src_lines, index)
-      
+
       else
         nil
       end
     end
-    
+
     # === Tests
-    # 
+    #
     # doctest: The organize_blocks method should separate Statement, Result and SpecialDirective
     #          objects into CodeBlocks.
     # >> r = RubyDocTest::Runner.new(">> t = 1\n>> t + 2\n=> 3\n>> u = 1", "test.doctest")
     # >> r.prepare_tests
-    # 
+    #
     # >> r.blocks.first.statements.map{|s| s.lines}
     # => [[">> t = 1"], [">> t + 2"]]
-    # 
+    #
     # >> r.blocks.first.result.lines
     # => ["=> 3"]
-    # 
+    #
     # >> r.blocks.last.statements.map{|s| s.lines}
     # => [[">> u = 1"]]
-    # 
+    #
     # >> r.blocks.last.result
     # => nil
     #
@@ -341,7 +341,7 @@ module RubyDocTest
       blocks << CodeBlock.new(current_statements) unless current_statements.empty?
       blocks
     end
-    
+
     def require_relative_to_file_name(file_name, relative_to)
       load_path = $:.dup
       $:.unshift File.expand_path(File.join(File.dirname(relative_to), File.dirname(file_name)))
@@ -352,9 +352,9 @@ module RubyDocTest
     ensure
       $:.shift
     end
-    
+
     # === Tests
-    # 
+    #
     # doctest: Tests should be organized into groups based on the 'doctest' SpecialDirective
     # >> r = RubyDocTest::Runner.new("doctest: one\n>> t = 1\ndoctest: two\n>> t + 2", "test.doctest")
     # >> r.prepare_tests
@@ -374,10 +374,10 @@ module RubyDocTest
     # >> r.prepare_tests
     # >> r.tests.size
     # => 1
-    # 
+    #
     # >> r.tests.first.description
     # => "Default Test"
-    # 
+    #
     # >> r.tests.first.code_blocks.size
     # => 2
     #
