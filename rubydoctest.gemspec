@@ -1,6 +1,10 @@
 Gem::Specification.new do |s|
   s.name = "rubydoctest"
+<<<<<<< HEAD
   s.version = "1.1.5"
+=======
+  s.version = Rubydoctest::VERSION.to_s
+>>>>>>> Use idiomatic `to_s` to get version string
 
   s.specification_version = 2 if s.respond_to? :specification_version=
 
