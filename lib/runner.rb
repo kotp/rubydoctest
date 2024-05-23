@@ -12,7 +12,7 @@ module RubyDocTest
 
   class Runner
 
-    @@color = {
+    COLOR = {
       :html => {
         :red    => %{<font color="red">%s</font>},
         :yellow => %{<font color="#C0C000">%s</font>},
@@ -114,7 +114,7 @@ module RubyDocTest
     end
 
     def format_color(text, color)
-      @@color[RubyDocTest.output_format][color] % text.to_s
+      COLOR[RubyDocTest.output_format][color] % text.to_s
     end
 
     def escape(text)
