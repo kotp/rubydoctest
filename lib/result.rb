@@ -3,7 +3,7 @@ $:.unshift(File.dirname(__FILE__)) unless
 
 require 'lines'
 
-module RubyDocTest
+module Rubydoctest
   class Result < Lines
     
     def normalize_result(s)
@@ -20,35 +20,35 @@ module RubyDocTest
     
     # === Tests
     # doctest: Strings should match
-    # >> r = RubyDocTest::Result.new(["=> 'hi'"])
+    # >> r = Rubydoctest::Result.new(["=> 'hi'"])
     # >> r.matches? 'hi'
     # => true
     #
-    # >> r = RubyDocTest::Result.new(["=> \"hi\""])
+    # >> r = Rubydoctest::Result.new(["=> \"hi\""])
     # >> r.matches? "hi"
     # => true
     #
     # doctest: Regexps should match
-    # >> r = RubyDocTest::Result.new(["=> /^reg.../"])
+    # >> r = Rubydoctest::Result.new(["=> /^reg.../"])
     # >> r.matches? /^reg.../
     # => true
     #
-    # >> r = RubyDocTest::Result.new(["=> /^reg.../"])
+    # >> r = Rubydoctest::Result.new(["=> /^reg.../"])
     # >> r.matches? /^regexp/
     # => false
     #
     # doctest: Arrays should match
-    # >> r = RubyDocTest::Result.new(["=> [1, 2, 3]"])
+    # >> r = Rubydoctest::Result.new(["=> [1, 2, 3]"])
     # >> r.matches? [1, 2, 3]
     # => true
     #
     # doctest: Arrays of arrays should match
-    # >> r = RubyDocTest::Result.new(["=> [[1, 2], [3, 4]]"])
+    # >> r = Rubydoctest::Result.new(["=> [[1, 2], [3, 4]]"])
     # >> r.matches? [[1, 2], [3, 4]]
     # => true
     #
     # doctest: Hashes should match
-    # >> r = RubyDocTest::Result.new(["=> {:one => 1, :two => 2}"])
+    # >> r = Rubydoctest::Result.new(["=> {:one => 1, :two => 2}"])
     # >> r.matches?({:two => 2, :one => 1})
     # => true
     def matches?(actual_result)

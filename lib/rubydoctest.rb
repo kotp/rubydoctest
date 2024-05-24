@@ -4,7 +4,7 @@ $:.unshift(File.dirname(__FILE__)) unless
 require 'irb'
 require "runner"
 
-module RubyDocTest
+module Rubydoctest
   
   class << self
     attr_accessor :trace, :ignore_interactive, :tests, :verbose

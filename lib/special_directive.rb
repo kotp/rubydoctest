@@ -3,7 +3,7 @@ $:.unshift(File.dirname(__FILE__)) unless
 
 require 'lines'
 
-module RubyDocTest
+module Rubydoctest
   class SpecialDirective < Lines
     NAMES = ["doctest:", "it:", "!!!", "doctest_require:"]
     NAMES_FOR_RX = NAMES.map{ |n| Regexp.escape(n) }.join("|")
@@ -11,12 +11,12 @@ module RubyDocTest
     # === Test
     #
     # doctest: The name of the directive should be detected in the first line
-    # >> s = RubyDocTest::SpecialDirective.new(["doctest: Testing Stuff", "Other Stuff"])
+    # >> s = Rubydoctest::SpecialDirective.new(["doctest: Testing Stuff", "Other Stuff"])
     # >> s.name
     # => "doctest:"
     #
     # doctest: "it:" is a valid directive
-    # >> s = RubyDocTest::SpecialDirective.new(["it: should test stuff"])
+    # >> s = Rubydoctest::SpecialDirective.new(["it: should test stuff"])
     # >> s.name
     # => "it:"
     def name
@@ -28,21 +28,21 @@ module RubyDocTest
     # === Test
     #
     # doctest: The value of the directive should be detected in the first line
-    # >> s = RubyDocTest::SpecialDirective.new(["doctest: Testing Stuff", "Other Stuff"])
+    # >> s = Rubydoctest::SpecialDirective.new(["doctest: Testing Stuff", "Other Stuff"])
     # >> s.value
     # => "Testing Stuff"
     #
-    # >> s = RubyDocTest::SpecialDirective.new(["  # doctest: Testing Stuff", "  # Other Stuff"])
+    # >> s = Rubydoctest::SpecialDirective.new(["  # doctest: Testing Stuff", "  # Other Stuff"])
     # >> s.value
     # => "Testing Stuff"
     #
     # doctest: Multiple lines for the directive value should work as well
-    # >> s = RubyDocTest::SpecialDirective.new(["doctest: Testing Stuff", "  On Two Lines"])
+    # >> s = Rubydoctest::SpecialDirective.new(["doctest: Testing Stuff", "  On Two Lines"])
     # >> s.value
     # => "Testing Stuff\nOn Two Lines"
     #
     # doctest: "it" should also work as a directive
-    # >> s = RubyDocTest::SpecialDirective.new(["it: should do something"])
+    # >> s = Rubydoctest::SpecialDirective.new(["it: should do something"])
     # >> s.value
     # => "should do something"
     def value

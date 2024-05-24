@@ -1,4 +1,4 @@
-module RubyDocTest
+module Rubydoctest
   # This is the top-level 'test' container that holds an optional description and one
   # or more CodeBlock objects.
   class Test

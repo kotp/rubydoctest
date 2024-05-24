@@ -4,7 +4,7 @@ $:.unshift(File.dirname(__FILE__)) unless
 require 'statement'
 require 'result'
 
-module RubyDocTest
+module Rubydoctest
   # A +CodeBlock+ is a group of one or more ruby statements, followed by an optional result.
   # For example:
   #  >> a = 1 + 1
@@ -20,23 +20,23 @@ module RubyDocTest
     
     # === Tests
     # doctest: Single statement with result should pass
-    # >> ss = [RubyDocTest::Statement.new([">> a = 1"])]
-    # >> r = RubyDocTest::Result.new(["=> 1"])
-    # >> cb = RubyDocTest::CodeBlock.new(ss, r)
+    # >> ss = [Rubydoctest::Statement.new([">> a = 1"])]
+    # >> r = Rubydoctest::Result.new(["=> 1"])
+    # >> cb = Rubydoctest::CodeBlock.new(ss, r)
     # >> cb.pass?
     # => true
     #
     # doctest: Single statement without result should pass by default
-    # >> ss = [RubyDocTest::Statement.new([">> a = 1"])]
-    # >> cb = RubyDocTest::CodeBlock.new(ss)
+    # >> ss = [Rubydoctest::Statement.new([">> a = 1"])]
+    # >> cb = Rubydoctest::CodeBlock.new(ss)
     # >> cb.pass?
     # => true
     #
     # doctest: Multi-line statement with result should pass
-    # >> ss = [RubyDocTest::Statement.new([">> a = 1"]),
-    #          RubyDocTest::Statement.new([">> 'a' + a.to_s"])]
-    # >> r = RubyDocTest::Result.new(["=> 'a1'"])
-    # >> cb = RubyDocTest::CodeBlock.new(ss, r)
+    # >> ss = [Rubydoctest::Statement.new([">> a = 1"]),
+    #          Rubydoctest::Statement.new([">> 'a' + a.to_s"])]
+    # >> r = Rubydoctest::Result.new(["=> 'a1'"])
+    # >> cb = Rubydoctest::CodeBlock.new(ss, r)
     # >> cb.pass?
     # => true
     def pass?
