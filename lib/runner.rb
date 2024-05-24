@@ -192,12 +192,12 @@ module Rubydoctest
           when "!!!"
             # ignore
             unless Rubydoctest.ignore_interactive
-              fake_statement = Object.new
-              runner = self
-              (class << fake_statement; self; end).send(:define_method, :evaluate) do
-                runner.start_irb
+              irb_statement = Object.new
+              starter = method(:start_irb)
+              irb_statement.define_singleton_method(:evaluate) do
+                starter.call
               end
-              current_statements << fake_statement
+              current_statements << irb_statement
             end
           end
         end
